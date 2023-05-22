@@ -11,14 +11,16 @@ const recipeDefs = gql`
 
   type Query {
     getAllRecipes: [Recipe]
+
+    getRecipeDetail(recipeId: Int!): RecipeOutput
   }
 
   type Mutation {
     createNewRecipe(name:String!, description:String, instructions: String, ingredients:[String]): RecipeOutput
 
-    addRecipeIngredients(id:Int!, items:[String!]!): RecipeOutput
+    addRecipeIngredients(recipeId:Int!, items:[String!]!): RecipeOutput
 
-    removeRecipeIngredients(id:Int!, items:[Int]): RecipeOutput
+    removeRecipeIngredients(recipeId:Int!, ids:[Int]): RecipeOutput
   }
 
   type RecipeOutput {

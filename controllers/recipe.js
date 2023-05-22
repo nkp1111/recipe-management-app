@@ -38,3 +38,67 @@ module.exports.getAllRecipes = async (Recipe) => {
     console.log(error)
   }
 }
+
+module.exports.getRecipeDetail = async (recipeId, Recipe) => {
+  try {
+    const recipe = await Recipe.findByPk(+recipeId, { include: "ingredients" })
+    return { recipe }
+  } catch (error) {
+    console.log(error)
+    return { error: "Error Fetching Recipe Detail" }
+  }
+}
+
+
+module.exports.addRecipeIngredients = async (recipeId, ingredientsName, Recipe, Ingredient) => {
+  try {
+    const recipe = await Recipe.findByPk(recipeId, { include: "ingredients" })
+    if (!recipe) {
+      return { error: "Recipe Not Found" }
+    }
+    const newIngredients = ingredientsName.map(item => ({ name: item, recipeId }))
+    const data = await Ingredient.bulkCreate(newIngredients)
+    recipe.ingredients.push(data)
+    const updatedRecipe = await recipe.save()
+    return { recipe }
+  } catch (error) {
+    console.log(error)
+    return { error: "Error adding new ingredients" }
+  }
+}
+
+
+module.exports.removeRecipeIngredients = async (recipeId, ids, Recipe, Ingredient) => {
+  try {
+    const removedIngredientIds = []
+    const recipe = await Recipe.findByPk(recipeId, { include: "ingredients" })
+    if (!recipe) {
+      return { error: "Recipe Not Found" }
+    } else if (!recipe.ingredients) {
+      return { error: "Recipes ingredients not found" }
+    }
+    const filteredRecipeIng = recipe.ingredients.filter(item => {
+      if (!ids.includes(item.id)) {
+        return item
+      } else {
+        removedIngredientIds.push(item.id)
+      }
+    })
+
+    const removedCount = recipe.ingredients.length - filteredRecipeIng.length
+
+    console.log(removedIngredientIds)
+    await Ingredient.destroy({
+      where: {
+        id: removedIngredientIds
+      }
+    })
+
+    recipe.ingredients = filteredRecipeIng
+    await recipe.save()
+    return { success: `Remove ${removedCount} ingredients`, recipe }
+  } catch (error) {
+    console.log(error)
+    return { error: "Error Removing ingredients" }
+  }
+}

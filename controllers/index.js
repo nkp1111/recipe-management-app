@@ -1,3 +1,9 @@
-const { createNewRecipe, getAllRecipes } = require("./recipe")
+const {
+  createNewRecipe,
+  getAllRecipes,
+  getRecipeDetail,
+  addRecipeIngredients,
+  removeRecipeIngredients,
+} = require("./recipe")
 
-module.exports = { createNewRecipe, getAllRecipes }
+module.exports = { createNewRecipe, getAllRecipes, getRecipeDetail, addRecipeIngredients, removeRecipeIngredients }
