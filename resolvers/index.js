@@ -6,10 +6,10 @@ const resolvers = {
     ...ingResolvers.Query,
     ...recResolver.Query,
   },
-  // Mutation: {
-  //   ...ingResolvers.Mutation,
-  //   ...recResolver.Mutation,
-  // }
+  Mutation: {
+    ...ingResolvers.Mutation,
+    ...recResolver.Mutation,
+  }
 }
 
 module.exports = { resolvers }
