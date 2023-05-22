@@ -2,30 +2,14 @@ const express = require("express")
 const { ApolloServer, gql } = require("apollo-server-express")
 
 const { sequelize, startDatabaseConnection } = require("./models")
+const { typeDefs } = require("./schema_gql")
+const { resolvers } = require("./resolvers")
 
 const app = express()
 const port = 4000
 
 // demo info
-const fakeDb = [{ id: 1, name: "Apple" }, { id: 2, name: "Banana" }]
-const typeDefs = gql`
-  type Recipe {
-    id: ID!
-    name: String!
-  }
-
-  type Query {
-    getAllRecipes: [Recipe]
-  }
-`
-const resolvers = {
-  Query: {
-    getAllRecipes: (parent, args, context, info) => {
-      console.log(context.db)
-      return context.db
-    }
-  }
-}
+const fakeDb = [{ id: 1, name: "Apple2" }, { id: 2, name: "Banana" }]
 
 /**
  * @desc Starts apollo server at given port
