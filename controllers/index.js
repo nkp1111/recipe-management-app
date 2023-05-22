@@ -8,4 +8,6 @@ const {
   deleteRecipe,
 } = require("./recipe")
 
-module.exports = { createNewRecipe, getAllRecipes, getRecipeDetail, addRecipeIngredients, removeRecipeIngredients, updateRecipeInfo, deleteRecipe }
+const { updateIngredientInfo } = require("./ingredient")
+
+module.exports = { createNewRecipe, getAllRecipes, getRecipeDetail, addRecipeIngredients, removeRecipeIngredients, updateRecipeInfo, deleteRecipe, updateIngredientInfo }
