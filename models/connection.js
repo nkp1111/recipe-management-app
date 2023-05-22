@@ -7,11 +7,25 @@ const dbName = process.env.POSTGRES_DB_NAME
 const host = process.env.POSTGRES_HOST
 const port = process.env.POSTGRES_PORT
 
-const sequelize = new Sequelize(dbName, user, password, {
-  host,
-  port,
+// // in development
+// const sequelize = new Sequelize(dbName, user, password, {
+//   host,
+//   port,
+//   dialect: "postgres",
+//   dialectModule: require("pg")
+// })
+
+
+// in production
+const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  dialectModule: require('pg'),
   dialect: "postgres",
-  dialectModule: require("pg")
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  }
 })
 
 const startDatabaseConnection = async () => {
