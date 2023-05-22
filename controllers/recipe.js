@@ -102,3 +102,24 @@ module.exports.removeRecipeIngredients = async (recipeId, ids, Recipe, Ingredien
     return { error: "Error Removing ingredients" }
   }
 }
+
+
+module.exports.updateRecipeInfo = async (recipeId, name, description, instruction, Recipe) => {
+  if (!name && !description && !instruction) {
+    return { error: "Nothing to Change" }
+  }
+  try {
+    const newInfo = {}
+    if (name) newInfo["name"] = name
+    if (description) newInfo["description"] = description
+    if (instruction) newInfo["instruction"] = instruction
+
+    await Recipe.update(newInfo, { where: { id: recipeId } })
+
+    return { success: `Successfully Updated Recipe with id ${recipeId}` }
+
+  } catch (error) {
+    console.log(error)
+    return { error: "Error updating Recipe" }
+  }
+}

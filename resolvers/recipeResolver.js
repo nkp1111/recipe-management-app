@@ -1,4 +1,4 @@
-const { createNewRecipe, getAllRecipes, getRecipeDetail, addRecipeIngredients, removeRecipeIngredients } = require("../controllers")
+const { createNewRecipe, getAllRecipes, getRecipeDetail, addRecipeIngredients, removeRecipeIngredients, updateRecipeInfo } = require("../controllers")
 
 const recResolver = {
   Query: {
@@ -33,6 +33,12 @@ const recResolver = {
       const { recipeId, ids } = args
       const { Recipe, Ingredient } = context.db
       return removeRecipeIngredients(+recipeId, ids, Recipe, Ingredient).then(data => data)
+    },
+
+    updateRecipeInfo: (parent, args, context, info) => {
+      const { recipeId, name, description, instruction } = args
+      const { Recipe } = context.db
+      return updateRecipeInfo(+recipeId, name, description, instruction, Recipe).then(data => data)
     }
   }
 }
