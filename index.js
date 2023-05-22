@@ -1,6 +1,8 @@
 const express = require("express")
 const { ApolloServer, gql } = require("apollo-server-express")
 
+const { sequelize, startDatabaseConnection } = require("./models")
+
 const app = express()
 const port = 4000
 
@@ -25,6 +27,12 @@ const resolvers = {
   }
 }
 
+/**
+ * @desc Starts apollo server at given port
+ * @param typeDefs: graphql typeDefs string
+ * @param resolvers: graphql resolvers object
+ * @param db: database information
+ */
 const startApolloServer = async () => {
   const server = new ApolloServer({
     typeDefs,
@@ -41,7 +49,16 @@ const startApolloServer = async () => {
   })
 }
 
-startApolloServer().catch(err => {
-  console.log("Error while starting apollo server")
-  console.log(err)
+/**
+ * @desc Connect to database and 
+ * - calls start apollo server function
+ */
+startDatabaseConnection().then(async () => {
+  await sequelize.sync()
+
+  startApolloServer().catch(err => {
+    console.log("Error while starting apollo server")
+    console.log(err)
+  })
 })
+
