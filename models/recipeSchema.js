@@ -13,7 +13,6 @@ const Recipe = sequelize.define("Recipe", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   description: {
     type: DataTypes.STRING(300),

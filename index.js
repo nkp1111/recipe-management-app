@@ -1,15 +1,15 @@
 const express = require("express")
 const { ApolloServer, gql } = require("apollo-server-express")
 
-const { sequelize, startDatabaseConnection } = require("./models")
+const {
+  sequelize, startDatabaseConnection,
+  Recipe, Ingredient
+} = require("./models")
 const { typeDefs } = require("./schema_gql")
 const { resolvers } = require("./resolvers")
 
 const app = express()
 const port = 4000
-
-// demo info
-const fakeDb = [{ id: 1, name: "Apple2" }, { id: 2, name: "Banana" }]
 
 /**
  * @desc Starts apollo server at given port
@@ -21,7 +21,7 @@ const startApolloServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: { db: fakeDb }
+    context: { db: { Ingredient, Recipe } }
   })
 
   await server.start()
