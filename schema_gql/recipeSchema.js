@@ -23,6 +23,8 @@ const recipeDefs = gql`
     removeRecipeIngredients(recipeId:Int!, ids:[Int]): RecipeOutput
 
     updateRecipeInfo(recipeId: Int!, name: String, description:String, instruction: String): RecipeOutput
+
+    deleteRecipe(recipeId: Int!): RecipeOutput
   }
 
   type RecipeOutput {

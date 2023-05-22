@@ -123,3 +123,14 @@ module.exports.updateRecipeInfo = async (recipeId, name, description, instructio
     return { error: "Error updating Recipe" }
   }
 }
+
+
+module.exports.deleteRecipe = async (recipeId, Recipe) => {
+  try {
+    await Recipe.destroy({ where: { id: recipeId } })
+    return { success: `Successfully Deleted Recipe with id ${recipeId}` }
+  } catch (error) {
+    console.log(error)
+    return { error: "Error while Deleting Recipe" }
+  }
+}
